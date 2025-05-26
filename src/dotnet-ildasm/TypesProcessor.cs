@@ -7,22 +7,16 @@ using Mono.Cecil;
 
 namespace DotNet.Ildasm
 {
-    internal sealed class TypesProcessor
+    internal sealed class TypesProcessor(IOutputWriter outputWriter, ItemFilter itemFilter)
     {
-        private readonly IOutputWriter _outputWriter;
-        private readonly ItemFilter _itemFilter;
-
-        public TypesProcessor(IOutputWriter outputWriter, ItemFilter itemFilter)
-        {
-            _outputWriter = outputWriter;
-            _itemFilter = itemFilter;
-        }
+        private readonly IOutputWriter _outputWriter = outputWriter;
+        private readonly ItemFilter _itemFilter = itemFilter;
 
         public void Write(IEnumerable<TypeDefinition> types)
         {
             foreach (var type in types)
             {
-                if (string.Compare(type.Name, "<Module>", StringComparison.CurrentCulture) == 0)
+                if (string.Equals(type.Name, "<Module>", StringComparison.Ordinal))
                     continue;
 
                 if (!IsFilterSet() ||
@@ -34,12 +28,12 @@ namespace DotNet.Ildasm
 
         private bool DoesTypeMatchFilter(TypeDefinition type)
         {
-            return string.Compare(type.Name, _itemFilter.Class, StringComparison.CurrentCulture) == 0;
+            return string.Equals(type.Name, _itemFilter.Class, StringComparison.Ordinal);
         }
 
         private bool DoesTypeContainMethodMatchingFilter(TypeDefinition type)
         {
-            return (!string.IsNullOrEmpty(_itemFilter.Method) && type.Methods.Any(x => string.Compare(x.Name, _itemFilter.Method, StringComparison.CurrentCulture) == 0));
+            return !string.IsNullOrEmpty(_itemFilter.Method) && type.Methods.Any(x => string.Equals(x.Name, _itemFilter.Method, StringComparison.Ordinal));
         }
 
         private bool IsFilterSet()
@@ -78,7 +72,7 @@ namespace DotNet.Ildasm
             foreach (var method in type.Methods)
             {
                 if (string.IsNullOrEmpty(_itemFilter.Method) ||
-                    string.Compare(method.Name, _itemFilter.Method, StringComparison.CurrentCulture) == 0)
+                    string.Equals(method.Name, _itemFilter.Method, StringComparison.Ordinal))
                     HandleMethod(method);
             }
         }
@@ -88,7 +82,7 @@ namespace DotNet.Ildasm
             foreach (var property in type.Properties)
             {
                 if (string.IsNullOrEmpty(_itemFilter.Method) ||
-                    string.Compare(property.Name, _itemFilter.Method, StringComparison.CurrentCulture) == 0)
+                    string.Equals(property.Name, _itemFilter.Method, StringComparison.Ordinal))
                     HandleProperty(property);
             }
         }
@@ -98,7 +92,7 @@ namespace DotNet.Ildasm
             foreach (var @event in type.Events)
             {
                 if (string.IsNullOrEmpty(_itemFilter.Method) ||
-                    string.Compare(@event.Name, _itemFilter.Method, StringComparison.CurrentCulture) == 0)
+                    string.Equals(@event.Name, _itemFilter.Method, StringComparison.Ordinal))
                     HandleEvent(@event);
             }
         }

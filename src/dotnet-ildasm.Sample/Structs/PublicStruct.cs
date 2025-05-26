@@ -7,7 +7,7 @@ namespace dotnet_ildasm.Sample.Structs
             X = x;
             Y = y;
         }
-        
+
         public int X;
         public int Y;
     }

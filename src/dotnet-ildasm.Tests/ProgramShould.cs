@@ -10,7 +10,7 @@ namespace DotNet.Ildasm.Tests
         {
             var mock = Substitute.For<IOutputWriter>();
             var program = new Program(mock);
-            var returnCode = program.Execute(new string[0]);
+            var returnCode = program.Execute([]);
 
             Assert.Equal(-1, returnCode);
         }

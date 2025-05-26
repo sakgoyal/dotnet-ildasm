@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using Mono.Cecil;
 
 namespace DotNet.Ildasm.Infrastructure
@@ -17,7 +16,9 @@ namespace DotNet.Ildasm.Infrastructure
                     outputWriter.Write(" nested public");
                 if (typeDefinition.IsNestedPrivate)
                     outputWriter.Write(" nested private");
-            } else {
+            }
+            else
+            {
                 if (typeDefinition.IsPublic)
                     outputWriter.Write(" public");
                 else
@@ -56,7 +57,7 @@ namespace DotNet.Ildasm.Infrastructure
 
             if (typeDefinition.HasInterfaces)
                 outputWriter.Write(
-                    $" implements {string.Join(", ", typeDefinition.Interfaces.Select(x => x.InterfaceType.ToIL()))}");
+                    $" implements {string.Join(", ", typeDefinition.Interfaces.Select(static x => x.InterfaceType.ToIL()))}");
 
             outputWriter.Write(Environment.NewLine);
         }
@@ -66,8 +67,8 @@ namespace DotNet.Ildasm.Infrastructure
         {
             foreach (var customAttribute in typeDefinition.CustomAttributes)
             {
-                if (string.Compare(customAttribute.AttributeType.Name, "DebuggableAttribute",
-                        StringComparison.CurrentCultureIgnoreCase) == 0)
+                if (string.Equals(customAttribute.AttributeType.Name, "DebuggableAttribute",
+                        StringComparison.OrdinalIgnoreCase))
                     continue;
 
                 customAttribute.WriteIL(outputWriter);

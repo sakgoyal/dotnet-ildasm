@@ -1,4 +1,3 @@
-using System;
 using Mono.Cecil;
 
 namespace DotNet.Ildasm
@@ -9,7 +8,7 @@ namespace DotNet.Ildasm
         {
             try
             {
-                return Mono.Cecil.AssemblyDefinition.ReadAssembly(assemblyPath);
+                return AssemblyDefinition.ReadAssembly(assemblyPath);
             }
             catch
             {

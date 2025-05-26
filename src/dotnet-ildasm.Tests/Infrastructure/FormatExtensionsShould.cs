@@ -41,7 +41,7 @@ namespace DotNet.Ildasm.Tests.Infrastructure
         [Theory]
         [InlineData(new byte[] { 0, 255, 125 }, "00 FF 7D")]
         [InlineData(null, "")]
-        [InlineData(new byte[]{}, "")]
+        [InlineData(new byte[] { }, "")]
         public void Format_ByteArray_Into_Hexadecimal_string(byte[] value, string expectedString)
         {
             var actual = value.ToHexadecimal();

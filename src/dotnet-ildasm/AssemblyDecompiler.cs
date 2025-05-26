@@ -6,17 +6,11 @@ using Mono.Collections.Generic;
 
 namespace DotNet.Ildasm
 {
-    public class AssemblyDecompiler : IAssemblyDecompiler
+    public class AssemblyDecompiler(string assemblyPath, IOutputWriter outputWriter) : IAssemblyDecompiler
     {
-        private readonly IOutputWriter _outputWriter;
-        private readonly ModuleDirectivesProcessor _moduleDirectivesProcessor;
+        private readonly IOutputWriter _outputWriter = outputWriter;
+        private readonly ModuleDirectivesProcessor _moduleDirectivesProcessor = new(assemblyPath, outputWriter);
 
-        public AssemblyDecompiler(string assemblyPath, IOutputWriter outputWriter)
-        {
-            _outputWriter = outputWriter;
-            _moduleDirectivesProcessor = new ModuleDirectivesProcessor(assemblyPath, outputWriter);
-        }
-        
         public void WriteAssemblyExternalReferences(AssemblyDefinition assembly)
         {
             foreach (var reference in assembly.MainModule.AssemblyReferences)

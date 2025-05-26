@@ -2,14 +2,16 @@
 
 namespace dotnet_ildasm.Sample.Classes
 {
-    public class ParentClass 
+    public class ParentClass
     {
-		public class NestedClass {
-			public string SomeMethod() { return "aaaaa"; }
-		}
+        public class NestedClass
+        {
+            public string SomeMethod() { return "aaaaa"; }
+        }
 
-		public NestedClass CreateNestedClass() {
-			return new NestedClass();
-		}
-	}
+        public NestedClass CreateNestedClass()
+        {
+            return new NestedClass();
+        }
+    }
 }

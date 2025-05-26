@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace DotNet.Ildasm.Infrastructure
 {
-    public static class FormatExtensions
+    public static partial class FormatExtensions
     {
         public static string ToHexadecimal(this ushort value)
         {
@@ -34,13 +34,15 @@ namespace DotNet.Ildasm.Infrastructure
             if (value == null)
                 return string.Empty;
 
-            var encoder = ASCIIEncoding.GetEncoding(0, 
+            var encoder = Encoding.GetEncoding(0,
                                   new EncoderReplacementFallback("."),
                                   new DecoderReplacementFallback("."));
 
             var decoded = encoder.GetString(value);
-            return Regex.Replace(decoded, "\\W", ".");
+            return MyRegex().Replace(decoded, ".");
         }
-        
+
+        [GeneratedRegex("\\W")]
+        private static partial Regex MyRegex();
     }
 }

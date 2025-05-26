@@ -4,14 +4,9 @@ using System.Text;
 
 namespace DotNet.Ildasm.Adapters
 {
-    internal sealed class FileStreamOutputWriter : IOutputWriter, IDisposable
+    internal sealed class FileStreamOutputWriter(string filePath) : IOutputWriter, IDisposable
     {
-        private readonly FileStream _stream;
-
-        public FileStreamOutputWriter(string filePath)
-        {
-            _stream = File.Open(filePath, FileMode.OpenOrCreate);
-        }
+        private readonly FileStream _stream = File.Open(filePath, FileMode.OpenOrCreate);
 
         public void Dispose()
         {

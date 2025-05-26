@@ -1,15 +1,9 @@
 namespace DotNet.Ildasm
 {
-    public class ExecutionResult
+    public class ExecutionResult(bool succeeded, string message = "")
     {
-        public ExecutionResult(bool succeeded, string message = "")
-        {
-            Succeeded = succeeded;
-            Message = message;
-        }
+        public bool Succeeded { get; } = succeeded;
 
-        public bool Succeeded { get; }
-
-        public string Message { get; }
+        public string Message { get; } = message;
     }
 }

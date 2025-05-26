@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Sample\dotnet-ildasm.Sample.dll" />
@@ -16,8 +16,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.11.5" />
-    <PackageReference Include="Mono.Cecil" Version="0.11.1" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.0" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.6" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dotnet-ildasm\dotnet-ildasm.csproj" />

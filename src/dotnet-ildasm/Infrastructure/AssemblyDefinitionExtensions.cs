@@ -21,8 +21,8 @@ namespace DotNet.Ildasm.Infrastructure
         {
             foreach (var customAttribute in assembly.CustomAttributes)
             {
-                if (string.Compare(customAttribute.AttributeType.Name, "DebuggableAttribute",
-                        StringComparison.CurrentCultureIgnoreCase) == 0)
+                if (string.Equals(customAttribute.AttributeType.Name, "DebuggableAttribute",
+                        StringComparison.OrdinalIgnoreCase))
                     continue;
 
                 customAttribute.WriteIL(outputWriter);

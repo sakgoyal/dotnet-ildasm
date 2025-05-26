@@ -14,12 +14,10 @@ namespace DotNet.Ildasm
         public ModuleDirectivesProcessor(string assemblyPath, IOutputWriter outputWriter)
         {
             _outputWriter = outputWriter;
-            using (var stream = File.OpenRead(assemblyPath))
-            using (var peFile = new PEReader(stream))
-            {
-                _moduleName = Path.GetFileName(assemblyPath);
-                _peHeaders = peFile.PEHeaders;
-            }
+            using var stream = File.OpenRead(assemblyPath);
+            using var peFile = new PEReader(stream);
+            _moduleName = Path.GetFileName(assemblyPath);
+            _peHeaders = peFile.PEHeaders;
         }
 
         public void WriteModuleDirective()
@@ -31,7 +29,7 @@ namespace DotNet.Ildasm
         {
             _outputWriter.WriteLine($"// MVID: {{{moduleVersionId}}}");
         }
-        
+
         public void WriteImageBaseDirective()
         {
             _outputWriter.WriteLine($".imagebase {_peHeaders.PEHeader.ImageBase.ToHexadecimal()}");
@@ -49,12 +47,12 @@ namespace DotNet.Ildasm
 
         public void WriteSubsystemDirective()
         {
-            _outputWriter.WriteLine($".subsystem {Convert.ToUInt16(_peHeaders.PEHeader.Subsystem).ToHexadecimal()}  // {Enum.GetName(typeof(Subsystem), _peHeaders.PEHeader.Subsystem)}");
+            _outputWriter.WriteLine($".subsystem {Convert.ToUInt16(_peHeaders.PEHeader.Subsystem).ToHexadecimal()}  // {Enum.GetName(_peHeaders.PEHeader.Subsystem)}");
         }
 
         public void WriteCornFlagsDirective()
         {
-            _outputWriter.WriteLine($".corflags {Convert.ToInt32(_peHeaders.CorHeader.Flags).ToHexadecimal()}  // {Enum.GetName(typeof(CorFlags), _peHeaders.CorHeader.Flags)}");
+            _outputWriter.WriteLine($".corflags {Convert.ToInt32(_peHeaders.CorHeader.Flags).ToHexadecimal()}  // {Enum.GetName(_peHeaders.CorHeader.Flags)}");
         }
     }
 }

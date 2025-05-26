@@ -23,7 +23,7 @@ namespace DotNet.Ildasm.Tests
         public void Double_Breakline_Before_Specific_Keywords(string inputIL)
         {
             var indentation = new AutoIndentOutputWriter(_outputWriterDouble);
-            string expectedIL = $"{Environment.NewLine+Environment.NewLine}{inputIL}";
+            string expectedIL = $"{Environment.NewLine + Environment.NewLine}{inputIL}";
 
             indentation.Write(inputIL);
             var actualIL = _outputWriterDouble.ToString();
@@ -102,9 +102,9 @@ namespace DotNet.Ildasm.Tests
             autoIndentWriter.Apply(".method public ");
             autoIndentWriter.Apply("{");
             autoIndentWriter.Apply(".maxstack 8");
-            
+
             var actualIL = _outputWriterDouble.ToString();
-            var expectedIL = $"{Environment.NewLine+Environment.NewLine}.class {{{Environment.NewLine}  .method public   {{    .maxstack 8";
+            var expectedIL = $"{Environment.NewLine + Environment.NewLine}.class {{{Environment.NewLine}  .method public   {{    .maxstack 8";
 
             Assert.Equal(expectedIL, actualIL);
         }
@@ -117,7 +117,7 @@ namespace DotNet.Ildasm.Tests
             autoIndentWriter.Apply(".class public {");
             autoIndentWriter.Apply(".method public {");
             autoIndentWriter.Apply("}");
-            
+
             _outputWriterMock.Received().Write("  }");
         }
 
@@ -130,7 +130,7 @@ namespace DotNet.Ildasm.Tests
             autoIndentWriter.Apply(".maxstack 8");
             autoIndentWriter.Apply("}");
             autoIndentWriter.Apply(".method private");
-            
+
             _outputWriterMock.Received().Write(".method private");
         }
 
@@ -142,7 +142,7 @@ namespace DotNet.Ildasm.Tests
             autoIndentWriter.Apply("{}}");
             autoIndentWriter.Apply(".method private {");
             autoIndentWriter.Apply(".maxstack 8");
-            
+
             _outputWriterMock.Received().Write("  .maxstack 8");
         }
 

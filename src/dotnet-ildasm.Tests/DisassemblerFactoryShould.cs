@@ -7,7 +7,7 @@ namespace DotNet.Ildasm.Tests
     {
         private readonly IAssemblyDefinitionResolver _assemblyDefinitionResolver;
         private readonly IAssemblyDecompiler _assemblyDecompiler;
-        private DisassemblerFactory _disassemblerFactory;
+        private readonly DisassemblerFactory _disassemblerFactory;
 
         public DisassemblerFactoryShould()
         {
@@ -19,24 +19,26 @@ namespace DotNet.Ildasm.Tests
         [Fact]
         public void Create_ConsoleOutputDisassembler_When_Output_Has_Not_Been_Set()
         {
-            var options = new CommandArgument();
+            var options = new CommandArgument
+            {
+                Assembly = "assembly.dll"
+            };
 
-            options.Assembly = "assembly.dll";
-            
             var disassembler = _disassemblerFactory.Create(options);
 
             Assert.IsType<ConsoleOutputDisassembler>(disassembler);
         }
-        
+
         [Fact]
         public void Create_FileOutputDisassembler_When_Output_Has_Been_Set()
         {
-            var options = new CommandArgument();
+            var options = new CommandArgument
+            {
+                Assembly = "assembly.dll",
+                OutputFile = "output.il",
+                ForceOverwrite = true
+            };
 
-            options.Assembly = "assembly.dll";
-            options.OutputFile = "output.il";
-            options.ForceOverwrite = true;
-            
             var disassembler = _disassemblerFactory.Create(options);
 
             Assert.IsType<FileOutputDisassembler>(disassembler);

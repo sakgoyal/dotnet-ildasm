@@ -32,7 +32,7 @@ namespace dotnet_ildasm.Sample.Classes
             return true;
         }
 
-        public bool SomeMethodWithAttributeOnParameter([SomeAttribute]string arg1, [AnotherAttribute]bool arg2)
+        public bool SomeMethodWithAttributeOnParameter([SomeAttribute] string arg1, [AnotherAttribute] bool arg2)
         {
             return true;
         }

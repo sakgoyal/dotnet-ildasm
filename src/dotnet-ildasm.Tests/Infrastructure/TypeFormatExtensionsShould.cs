@@ -10,8 +10,8 @@ namespace DotNet.Ildasm.Tests.Infrastructure
         [Fact]
         public void Return_IL_Type_For_Void()
         {
-            var type = DataHelper.SampleAssembly.Value.Modules.First().Types.First(x => x.Name == "Program");
-            var methoDefinition = type.Methods.First(x => x.Name == "Main");
+            var type = DataHelper.SampleAssembly.Value.Modules.First().Types.First(static x => x.Name == "Program");
+            var methoDefinition = type.Methods.First(static x => x.Name == "Main");
 
             var actual = methoDefinition.ReturnType.ToIL();
 
@@ -21,8 +21,8 @@ namespace DotNet.Ildasm.Tests.Infrastructure
         [Fact]
         public void Return_IL_Type_For_String()
         {
-            var type = DataHelper.SampleAssembly.Value.Modules.First().Types.First(x => x.Name == "PublicClass");
-            var propertyDefinition = type.Properties.First(x => x.Name == "Property1");
+            var type = DataHelper.SampleAssembly.Value.Modules.First().Types.First(static x => x.Name == "PublicClass");
+            var propertyDefinition = type.Properties.First(static x => x.Name == "Property1");
 
             var actual = propertyDefinition.GetMethod.ReturnType.ToIL();
 
@@ -32,8 +32,8 @@ namespace DotNet.Ildasm.Tests.Infrastructure
         [Fact]
         public void Return_IL_Type_For_StringArray()
         {
-            var type = DataHelper.SampleAssembly.Value.Modules.First().Types.First(x => x.Name == "PublicClass");
-            var methodDefinition = type.Methods.First(x => x.Name == "PublicVoidMethodParams");
+            var type = DataHelper.SampleAssembly.Value.Modules.First().Types.First(static x => x.Name == "PublicClass");
+            var methodDefinition = type.Methods.First(static x => x.Name == "PublicVoidMethodParams");
 
             var actual = methodDefinition.Parameters.First().ParameterType.ToIL();
 
@@ -43,8 +43,8 @@ namespace DotNet.Ildasm.Tests.Infrastructure
         [Fact]
         public void Return_IL_Type_For_Int32()
         {
-            var type = DataHelper.SampleAssembly.Value.Modules.First().Types.First(x => x.Name == "PublicClass");
-            var methodDefinition = type.Methods.First(x => x.Name == "UsingIF");
+            var type = DataHelper.SampleAssembly.Value.Modules.First().Types.First(static x => x.Name == "PublicClass");
+            var methodDefinition = type.Methods.First(static x => x.Name == "UsingIF");
 
             var actual = methodDefinition.Parameters.First().ParameterType.ToIL();
 
@@ -54,12 +54,12 @@ namespace DotNet.Ildasm.Tests.Infrastructure
         [IgnoreOnWindowsFact]
         public void Return_IL_Prefixed_Type_For_ValueTypes()
         {
-            var type = DataHelper.SampleAssembly.Value.Modules.First().Types.First(x => x.Name == "SomeClassWithAttribute");
+            var type = DataHelper.SampleAssembly.Value.Modules.First().Types.First(static x => x.Name == "SomeClassWithAttribute");
             var fieldDefinition = type.Fields.Last();
             var attribute = fieldDefinition.CustomAttributes.Last();
 
             var actual = attribute.ConstructorArguments[0].Type.ToIL();
-            
+
             Assert.Equal("valuetype [netstandard]System.Diagnostics.DebuggerBrowsableState", actual);
         }
     }

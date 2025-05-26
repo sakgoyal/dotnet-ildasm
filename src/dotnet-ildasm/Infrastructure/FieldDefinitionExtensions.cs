@@ -8,7 +8,7 @@ namespace DotNet.Ildasm.Infrastructure
         public static void WriteIL(this FieldDefinition field, IOutputWriter writer)
         {
             writer.Write(".field ");
-            
+
             if (field.IsPublic)
                 writer.Write("public ");
 
@@ -36,7 +36,7 @@ namespace DotNet.Ildasm.Infrastructure
 
         private static string EscapeIfNeeded(string fieldName)
         {
-            if (fieldName.Contains("<"))
+            if (fieldName.Contains('<'))
                 return $"'{fieldName}'";
 
             return fieldName;

@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using DotNet.Ildasm.Infrastructure;
 using Mono.Cecil;
@@ -10,7 +9,7 @@ namespace DotNet.Ildasm
     {
         public static void WriteILBody(this MethodDefinition method, IOutputWriter outputWriter)
         {
-            outputWriter.WriteLine(String.Empty);
+            outputWriter.WriteLine(string.Empty);
             outputWriter.WriteLine("{");
 
             method.WriteCustomAttributes(outputWriter);
@@ -24,19 +23,19 @@ namespace DotNet.Ildasm
                         attr.WriteIL(outputWriter);
                 }
 
-                var @params = method.Parameters.Where(x => x.HasCustomAttributes).ToArray();
+                var @params = method.Parameters.Where(static x => x.HasCustomAttributes).ToArray();
                 for (int i = 0; i < @params.Length; i++)
                 {
                     outputWriter.WriteLine($".param [{i + 1}]");
                     @params[i].CustomAttributes.First().WriteIL(outputWriter);
                 }
 
-                outputWriter.WriteLine($"// Method begins at Relative Virtual Address (RVA) 0x{method.RVA.ToString("X")}");
+                outputWriter.WriteLine($"// Method begins at Relative Virtual Address (RVA) 0x{method.RVA:X}");
 
                 if (method.DeclaringType.Module.EntryPoint == method)
                     outputWriter.WriteLine(".entrypoint");
 
-                outputWriter.WriteLine($"// Code size {method.Body.CodeSize} (0x{method.Body.CodeSize.ToString("X")})");
+                outputWriter.WriteLine($"// Code size {method.Body.CodeSize} (0x{method.Body.CodeSize:X})");
                 outputWriter.WriteLine($".maxstack {method.Body.MaxStackSize}");
 
                 WriteLocalVariablesIfNeeded(method, outputWriter);
@@ -176,7 +175,7 @@ namespace DotNet.Ildasm
                         writer.Write(", ");
 
                     var parameterDefinition = method.Parameters[i];
-                    if (parameterDefinition.ParameterType.IsGenericInstance || 
+                    if (parameterDefinition.ParameterType.IsGenericInstance ||
                         parameterDefinition.ParameterType.MetadataType == MetadataType.Class)
                         writer.Write("class ");
 

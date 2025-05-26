@@ -1,13 +1,10 @@
-﻿using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Running;
-using System.IO;
-using System.Reflection;
+﻿using BenchmarkDotNet.Running;
 
-namespace dotnet_ildasm.Benchmarks
+namespace DotNet.Ildasm.Benchmarks
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             BenchmarkRunner.Run<AutoIndentationOverhead>();
         }

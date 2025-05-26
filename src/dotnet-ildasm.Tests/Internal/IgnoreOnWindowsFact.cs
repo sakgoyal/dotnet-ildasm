@@ -25,7 +25,7 @@ namespace DotNet.Ildasm.Tests.Internal
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class IgnoreOnWindowsInlineData : DataAttribute
     {
-        readonly object[] data;
+        private readonly object[] data;
 
         public IgnoreOnWindowsInlineData(params object[] data)
         {
@@ -40,7 +40,7 @@ namespace DotNet.Ildasm.Tests.Internal
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             // This is called by the WPA81 version as it does not have access to attribute ctor params
-            return new[] { data };
+            return [data];
         }
 
         private static bool IsWindows() => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);

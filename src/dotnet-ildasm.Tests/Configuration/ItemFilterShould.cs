@@ -1,4 +1,3 @@
-using System;
 using DotNet.Ildasm.Configuration;
 using Xunit;
 
@@ -39,9 +38,9 @@ namespace DotNet.Ildasm.Tests.Configuration
         [Fact]
         public void Ignore_Empty_Filter()
         {
-            string itemFilter = String.Empty;
+            string itemFilter = string.Empty;
             var filterParser = new ItemFilter(itemFilter);
-            
+
             Assert.Null(filterParser.Class);
             Assert.Null(filterParser.Method);
         }
@@ -49,7 +48,7 @@ namespace DotNet.Ildasm.Tests.Configuration
         [Fact]
         public void Know_When_No_Filter_Is_Set()
         {
-            string itemFilter = String.Empty;
+            string itemFilter = string.Empty;
             var filterParser = new ItemFilter(itemFilter);
 
             Assert.False(filterParser.HasFilter);

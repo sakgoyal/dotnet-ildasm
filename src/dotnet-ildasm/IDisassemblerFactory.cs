@@ -1,6 +1,4 @@
-﻿using DotNet.Ildasm.Configuration;
-
-namespace DotNet.Ildasm
+﻿namespace DotNet.Ildasm
 {
     public interface IDisassemblerFactory
     {

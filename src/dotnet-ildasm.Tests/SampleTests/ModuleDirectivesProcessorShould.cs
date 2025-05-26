@@ -19,7 +19,7 @@ namespace DotNet.Ildasm.Tests.SampleTests
         {
             var expected = ".imagebase 0x00400000";
             var directivesProcessor = new ModuleDirectivesProcessor(DotnetIldasmSampleStandardDll, _outputWriterMock);
-            
+
             directivesProcessor.WriteImageBaseDirective();
 
             _outputWriterMock.Received(1).WriteLine(expected);
@@ -31,7 +31,7 @@ namespace DotNet.Ildasm.Tests.SampleTests
             var guid = Guid.NewGuid();
             var expected = $"// MVID: {{{guid}}}";
             var directivesProcessor = new ModuleDirectivesProcessor(DotnetIldasmSampleStandardDll, _outputWriterMock);
-            
+
             directivesProcessor.WriteModuleVersionId(guid);
 
             _outputWriterMock.Received(1).WriteLine(expected);
@@ -42,7 +42,7 @@ namespace DotNet.Ildasm.Tests.SampleTests
         {
             var expected = ".file alignment 0x00000200";
             var directivesProcessor = new ModuleDirectivesProcessor(DotnetIldasmSampleStandardDll, _outputWriterMock);
-            
+
             directivesProcessor.WriteFileAlignmentDirective();
 
             _outputWriterMock.Received(1).WriteLine(expected);
@@ -53,7 +53,7 @@ namespace DotNet.Ildasm.Tests.SampleTests
         {
             var expected = ".stackreserve 0x00100000";
             var directivesProcessor = new ModuleDirectivesProcessor(DotnetIldasmSampleStandardDll, _outputWriterMock);
-            
+
             directivesProcessor.WriteStackReserveDirective();
 
             _outputWriterMock.Received(1).WriteLine(expected);
@@ -64,7 +64,7 @@ namespace DotNet.Ildasm.Tests.SampleTests
         {
             var expected = ".subsystem 0x0003  // WindowsCui";
             var directivesProcessor = new ModuleDirectivesProcessor(DotnetIldasmSampleStandardDll, _outputWriterMock);
-            
+
             directivesProcessor.WriteSubsystemDirective();
 
             _outputWriterMock.Received(1).WriteLine(expected);
@@ -75,7 +75,7 @@ namespace DotNet.Ildasm.Tests.SampleTests
         {
             var expected = ".corflags 0x00000001  // ILOnly";
             var directivesProcessor = new ModuleDirectivesProcessor(DotnetIldasmSampleStandardDll, _outputWriterMock);
-            
+
             directivesProcessor.WriteCornFlagsDirective();
 
             _outputWriterMock.Received(1).WriteLine(expected);

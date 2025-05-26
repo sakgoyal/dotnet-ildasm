@@ -8,15 +8,15 @@ namespace DotNet.Ildasm.Configuration
         {
             if (!string.IsNullOrEmpty(itemFilter))
             {
-                var index = itemFilter.IndexOf("::", StringComparison.CurrentCultureIgnoreCase);
+                int index = itemFilter.IndexOf("::", StringComparison.CurrentCultureIgnoreCase);
                 if (index > -1)
                 {
                     if (index > 0)
                     {
-                        Class = itemFilter.Substring(0, itemFilter.Length - index);
+                        Class = itemFilter[..^index];
                     }
 
-                    Method = itemFilter.Substring(index + 2, itemFilter.Length - (index + 2));
+                    Method = itemFilter[(index + 2)..];
                 }
                 else
                 {
@@ -25,7 +25,7 @@ namespace DotNet.Ildasm.Configuration
             }
         }
 
-        public bool HasFilter => (!string.IsNullOrEmpty(Class) || !string.IsNullOrEmpty(Method));
+        public bool HasFilter => !string.IsNullOrEmpty(Class) || !string.IsNullOrEmpty(Method);
         public string Method { get; }
         public string Class { get; }
     }

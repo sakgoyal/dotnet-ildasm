@@ -12,11 +12,11 @@ namespace dotnet_ildasm.Sample.Classes
         {
             PublicVoidMethodSingleParameter(null);
         }
-        
+
         public void PublicVoidMethodSingleParameter(string parameter1)
         {
         }
-        
+
         public void PublicVoidMethodTwoParameters(string parameter1, int parameter2)
         {
         }
@@ -27,7 +27,7 @@ namespace dotnet_ildasm.Sample.Classes
 
         public void UsingIF(int parameter)
         {
-            int localVariable = 5; 
+            int localVariable = 5;
             if (parameter > 10)
             {
                 UsingTryCatch(localVariable);

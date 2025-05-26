@@ -10,11 +10,11 @@ namespace dotnet_ildasm.Sample.Classes
         {
             Method2();
         }
-        
+
         public static void Method2()
         {
         }
-        
+
         public static IntPtr Method3()
         {
             return IntPtr.Zero;

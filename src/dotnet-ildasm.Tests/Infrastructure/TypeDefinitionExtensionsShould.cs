@@ -27,7 +27,7 @@ namespace DotNet.Ildasm.Tests.Infrastructure
             ".class public auto ansi sealed beforefieldinit dotnet_ildasm.Sample.Classes.PublicSealedClass extends [System.Runtime]System.Object")]
         [InlineData("PublicAbstractClass",
             ".class public abstract auto ansi beforefieldinit dotnet_ildasm.Sample.Classes.PublicAbstractClass extends [System.Runtime]System.Object")]
- #else
+#else
         [InlineData("PrivateClass",
             ".class private auto ansi beforefieldinit dotnet_ildasm.Sample.Classes.PrivateClass extends [netstandard]System.Object")]
         [InlineData("PublicClass",
@@ -36,13 +36,13 @@ namespace DotNet.Ildasm.Tests.Infrastructure
             ".class public auto ansi sealed beforefieldinit dotnet_ildasm.Sample.Classes.PublicSealedClass extends [netstandard]System.Object")]
         [InlineData("PublicAbstractClass",
             ".class public abstract auto ansi beforefieldinit dotnet_ildasm.Sample.Classes.PublicAbstractClass extends [netstandard]System.Object")]
- #endif
+#endif
         [InlineData("DerivedPublicClass",
             ".class public auto ansi beforefieldinit dotnet_ildasm.Sample.Classes.DerivedPublicClass extends dotnet_ildasm.Sample.Classes.PublicAbstractClass")]
         public void Generate_Valid_IL_For_Class_Signatures(string className, string expectedIL)
         {
             var type = _assemblyDefinition.MainModule.Types.FirstOrDefault(x => x.Name == className);
-            
+
             type.WriteILSignature(_outputWriter);
             var actualIL = _outputWriter.ToString();
 
@@ -61,7 +61,7 @@ namespace DotNet.Ildasm.Tests.Infrastructure
         {
             var parentType = _assemblyDefinition.MainModule.Types.FirstOrDefault(x => x.Name == parentClassName);
             var nestedType = parentType.NestedTypes.FirstOrDefault(x => x.Name == nestedClassName);
-    
+
             nestedType.WriteILSignature(_outputWriter);
             var actualIL = _outputWriter.ToString();
 

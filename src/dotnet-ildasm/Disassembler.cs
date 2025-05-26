@@ -3,34 +3,28 @@ using DotNet.Ildasm.Configuration;
 
 namespace DotNet.Ildasm
 {
-    public abstract class Disassembler : IDisposable
+    public abstract class Disassembler(IAssemblyDecompiler assemblyDataProcessor, IAssemblyDefinitionResolver assemblyResolver) : IDisposable
     {
-        private readonly IAssemblyDecompiler _assemblyDecompiler;
-        private readonly IAssemblyDefinitionResolver _assemblyResolver;
-
-        protected Disassembler(IAssemblyDecompiler assemblyDataProcessor, IAssemblyDefinitionResolver assemblyResolver)
-        {
-            _assemblyDecompiler = assemblyDataProcessor;
-            _assemblyResolver = assemblyResolver;
-        }
+        private readonly IAssemblyDecompiler _assemblyDecompiler = assemblyDataProcessor;
+        private readonly IAssemblyDefinitionResolver _assemblyResolver = assemblyResolver;
 
         public virtual ExecutionResult Execute(CommandArgument argument, ItemFilter itemFilter)
         {
             var assembly = _assemblyResolver.Resolve(argument.Assembly);
             if (assembly == null)
                 return new ExecutionResult(false, "Error: Assembly could not be loaded, please check the path and try again.");
-            
+
             if (!itemFilter.HasFilter)
             {
                 _assemblyDecompiler.WriteAssemblyExternalReferences(assembly);
                 _assemblyDecompiler.WriteAssemblySection(assembly);
             }
-            
+
             foreach (var module in assembly.Modules)
             {
                 if (!itemFilter.HasFilter)
                     _assemblyDecompiler.WriteModuleSection(module);
-                
+
                 _assemblyDecompiler.WriteModuleTypes(module.Types, itemFilter);
             }
 

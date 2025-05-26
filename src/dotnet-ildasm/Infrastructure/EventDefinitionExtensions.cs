@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using DotNet.Ildasm.Infrastructure;
 using Mono.Cecil;
@@ -9,7 +8,7 @@ namespace DotNet.Ildasm
     {
         public static void WriteILBody(this EventDefinition eventDefinition, IOutputWriter outputWriter)
         {
-            outputWriter.WriteLine(String.Empty);
+            outputWriter.WriteLine(string.Empty);
             outputWriter.WriteLine("{");
 
             eventDefinition.WriteCustomAttributes(outputWriter);

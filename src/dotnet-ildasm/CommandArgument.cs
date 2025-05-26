@@ -6,7 +6,7 @@ namespace DotNet.Ildasm
         public string OutputFile { get; set; }
         public string Item { get; set; }
         public bool ForceOverwrite { get; set; }
-        
+
         public bool HasOutputPathSet => OutputFile?.Length > 0;
     }
 }

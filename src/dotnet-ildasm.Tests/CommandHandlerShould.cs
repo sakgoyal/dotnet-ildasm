@@ -1,5 +1,4 @@
 using System;
-using DotNet.Ildasm;
 using NSubstitute;
 using Xunit;
 
@@ -7,8 +6,8 @@ namespace DotNet.Ildasm.Tests
 {
     public class CommandHandlerShould
     {
-        private Func<CommandArgument, int> _executor;
-        private Func<string, int> _showHelp;
+        private readonly Func<CommandArgument, int> _executor;
+        private readonly Func<string, int> _showHelp;
 
         public CommandHandlerShould()
         {

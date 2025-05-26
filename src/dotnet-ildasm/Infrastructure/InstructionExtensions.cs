@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using DotNet.Ildasm.Infrastructure;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
@@ -10,7 +9,7 @@ namespace DotNet.Ildasm
     {
         public static void WriteIL(this Instruction instruction, IOutputWriter outputWriter)
         {
-            outputWriter.Write($"IL_{instruction.Offset:x4}: {instruction.OpCode.ToString()}");
+            outputWriter.Write($"IL_{instruction.Offset:x4}: {instruction.OpCode}");
             WriteOperandIL(instruction, outputWriter);
             outputWriter.Write(Environment.NewLine);
         }
@@ -36,11 +35,10 @@ namespace DotNet.Ildasm
                             var instanceString = methodReference.HasThis ? "instance " : string.Empty;
                             if (methodReference.CallingConvention == MethodCallingConvention.Generic)
                             {
-                                var genericInstance = instruction.Operand as GenericInstanceMethod;
-                                if (genericInstance != null)
+                                if (instruction.Operand is GenericInstanceMethod genericInstance)
                                 {
                                     writer.Write(
-                                        $"{instanceString}{genericInstance.ReturnType.ToString()} class {genericInstance.DeclaringType.ToIL()}::{genericInstance.Name}");
+                                        $"{instanceString}{genericInstance.ReturnType} class {genericInstance.DeclaringType.ToIL()}::{genericInstance.Name}");
 
                                     WriteGenericMethodCallParameters(genericInstance, writer);
                                 }
@@ -72,8 +70,7 @@ namespace DotNet.Ildasm
                             {
                                 writer.Write($"class ");
 
-                                var genericInstance = instruction.Operand as GenericInstanceType;
-                                if (genericInstance != null)
+                                if (instruction.Operand is GenericInstanceType genericInstance)
                                 {
                                     writer.Write($"[{genericInstance.Scope.Name}]");
                                 }
@@ -103,8 +100,7 @@ namespace DotNet.Ildasm
 
                 writer.Write(argType.ToIL());
 
-                var genericArg = arg as GenericInstanceType;
-                if (genericArg != null)
+                if (arg is GenericInstanceType genericArg)
                 {
                     writer.Write("<");
 
@@ -164,7 +160,7 @@ namespace DotNet.Ildasm
 
         private static string EscapeIfNeeded(string fieldName)
         {
-            if (fieldName.Contains("<"))
+            if (fieldName.Contains('<'))
                 return $"'{fieldName}'";
 
             return fieldName;

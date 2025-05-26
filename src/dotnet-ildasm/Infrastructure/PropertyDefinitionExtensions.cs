@@ -1,8 +1,6 @@
-using System;
 using System.Linq;
 using DotNet.Ildasm.Infrastructure;
 using Mono.Cecil;
-using Mono.Cecil.Cil;
 
 namespace DotNet.Ildasm
 {
@@ -10,7 +8,7 @@ namespace DotNet.Ildasm
     {
         public static void WriteILBody(this PropertyDefinition property, IOutputWriter outputWriter)
         {
-            outputWriter.WriteLine(String.Empty);
+            outputWriter.WriteLine(string.Empty);
             outputWriter.WriteLine("{");
 
             property.WriteCustomAttributes(outputWriter);

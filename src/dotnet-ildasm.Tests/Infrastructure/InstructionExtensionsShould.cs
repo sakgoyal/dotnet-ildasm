@@ -66,8 +66,8 @@ namespace DotNet.Ildasm.Tests.Infrastructure
         [Fact]
         public void Be_Able_To_Write_Field_Reference()
         {
-            var type = _assemblyDefinition.Modules.First().Types.First(x => x.Name == "PublicStruct");
-            var fieldDefinition = type.Fields.First(x => x.Name == "X");
+            var type = _assemblyDefinition.Modules.First().Types.First(static x => x.Name == "PublicStruct");
+            var fieldDefinition = type.Fields.First(static x => x.Name == "X");
             var instruction = Instruction.Create(OpCodes.Stfld, fieldDefinition);
 
             instruction.WriteIL(_outputWriter);
@@ -89,8 +89,8 @@ namespace DotNet.Ildasm.Tests.Infrastructure
         [Fact]
         public void Be_Able_To_Write_Instance_Property_Reference()
         {
-            var type = _assemblyDefinition.Modules.First().Types.First(x => x.Name == "PublicClass");
-            var propertyDefinition = type.Properties.First(x => x.Name == "Property1");
+            var type = _assemblyDefinition.Modules.First().Types.First(static x => x.Name == "PublicClass");
+            var propertyDefinition = type.Properties.First(static x => x.Name == "Property1");
             var instruction = Instruction.Create(OpCodes.Call, propertyDefinition.GetMethod);
 
             instruction.WriteIL(_outputWriter);
@@ -153,13 +153,13 @@ namespace DotNet.Ildasm.Tests.Infrastructure
             Assert.Equal("IL_001e: call !!0 class [netstandard]System.Threading.Interlocked::CompareExchange<class [netstandard]System.EventHandler`1<[netstandard]System.Object>>(!!0&, !!0, !!0)", _outputWriter.ToString());
         }
 
-        MethodDefinition GetMethod(string className, string methodName)
+        private MethodDefinition GetMethod(string className, string methodName)
         {
             var type = _assemblyDefinition.Modules.First().Types.First(x => x.Name == className);
             return type.Methods.First(x => x.Name == methodName);
         }
 
-        static Instruction GetInstruction(MethodDefinition method, OpCode opCode)
+        private static Instruction GetInstruction(MethodDefinition method, OpCode opCode)
         {
             Instruction instruction = null;
             foreach (var inst in method.Body.Instructions)

@@ -4,28 +4,24 @@ using DotNet.Ildasm.Configuration;
 
 namespace DotNet.Ildasm
 {
-    internal class Program
+    internal class Program(IOutputWriter writer)
     {
-        IOutputWriter _writer;
-        IDisassemblerFactory _factory = new DisassemblerFactory(new AssemblyDefinitionResolver());
+        private readonly IOutputWriter _writer = writer;
+        private readonly IDisassemblerFactory _factory = new DisassemblerFactory(new AssemblyDefinitionResolver());
 
         public Program() : this(new ConsoleOutputWriter())
         {
         }
 
-        public Program(IOutputWriter writer)
-        {
-            _writer = writer;
-        }
-
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             return new Program().Execute(args);
         }
 
         internal int Execute(string[] args)
         {
-            var handler = new CommandHandler(ExecuteDisassembler, (string text) => {
+            var handler = new CommandHandler(ExecuteDisassembler, text =>
+            {
                 _writer.WriteLine(text);
                 return -1;
             });
@@ -39,12 +35,10 @@ namespace DotNet.Ildasm
 
             try
             {
-                using (var disassembler = _factory.Create(argument))
-                {
-                    var itemFilter = new ItemFilter(argument.Item);
+                using var disassembler = _factory.Create(argument);
+                var itemFilter = new ItemFilter(argument.Item);
 
-                    executionResult = disassembler.Execute(argument, itemFilter);
-                }
+                executionResult = disassembler.Execute(argument, itemFilter);
             }
             catch (Exception e)
             {

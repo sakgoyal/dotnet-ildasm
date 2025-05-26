@@ -3,16 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace DotNet.Ildasm
 {
-    public class AutoIndentOutputWriter : IOutputWriter
+    public partial class AutoIndentOutputWriter(IOutputWriter writer) : IOutputWriter
     {
-        private readonly IOutputWriter _writer;
-        private int _numSpaces = 2;
+        private readonly IOutputWriter _writer = writer;
+        private readonly int _numSpaces = 2;
         private int _currentLevel = 0;
-
-        public AutoIndentOutputWriter(IOutputWriter writer)
-        {
-            _writer = writer;
-        }
 
         public void Dispose()
         {
@@ -36,14 +31,14 @@ namespace DotNet.Ildasm
 
             if (IsSingleLineBreakRequired(code))
                 _writer.WriteLine(string.Empty);
-            
+
             if (IsDoubleLineBreakRequired(code))
             {
                 _writer.WriteLine(string.Empty);
                 _writer.Write(Environment.NewLine);
             }
 
-            if (code.StartsWith("}"))
+            if (code.StartsWith('}'))
             {
                 alreadyUpdatedIndentation = true;
                 UpdateIndentationLevel(code);
@@ -61,20 +56,17 @@ namespace DotNet.Ildasm
 
         private static bool IsSingleLineBreakRequired(string code)
         {
-            return Regex.IsMatch(code, "^(.field|.method|.property|.event){1}",
-                RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            return RegexSingle().IsMatch(code);
         }
 
         private static bool IsDoubleLineBreakRequired(string code)
         {
-            return Regex.IsMatch(code, "^(.class|.assembly|.module){1}",
-                RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            return RegexLineBr().IsMatch(code);
         }
 
         private static bool IsIndentationRequired(string code)
         {
-            return Regex.IsMatch(code, "^(catch|IL|\\.|//|{|}){1}",
-                RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            return RegexIndent().IsMatch(code);
         }
 
         private void UpdateIndentationLevel(string code)
@@ -88,5 +80,13 @@ namespace DotNet.Ildasm
             if (_currentLevel < 0)
                 _currentLevel = 0;
         }
-    }
+
+        [GeneratedRegex("^(catch|IL|\\.|//|{|}){1}", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.CultureInvariant)]
+        private static partial Regex RegexSingle();
+
+        [GeneratedRegex("^(.field|.method|.property|.event){1}", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.CultureInvariant)]
+        private static partial Regex RegexIndent();
+		[GeneratedRegex("^(.class|.assembly|.module){1}", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.CultureInvariant)]
+		private static partial Regex RegexLineBr();
+	}
 }

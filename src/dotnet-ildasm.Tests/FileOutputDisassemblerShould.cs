@@ -17,7 +17,7 @@ namespace DotNet.Ildasm.Tests
             _assemblyDefinitionResolver = Substitute.For<IAssemblyDefinitionResolver>();
             _assemblyProcessorMock = Substitute.For<IAssemblyDecompiler>();
 
-            var assemblyDefinition = Mono.Cecil.AssemblyDefinition.CreateAssembly(
+            var assemblyDefinition = AssemblyDefinition.CreateAssembly(
                 new AssemblyNameDefinition("test", Version.Parse("1.0.0")),
                 "Module1", ModuleKind.Dll);
 
@@ -52,7 +52,7 @@ namespace DotNet.Ildasm.Tests
         public void Write_Assembly_ExternalReferences_then_AssemblySection()
         {
             var disassembler = new ConsoleOutputDisassembler(_assemblyProcessorMock, _assemblyDefinitionResolver);
-            
+
             disassembler.Execute(new CommandArgument(), new ItemFilter(string.Empty));
 
             Received.InOrder(() =>
@@ -61,12 +61,12 @@ namespace DotNet.Ildasm.Tests
                 _assemblyProcessorMock.WriteAssemblySection(Arg.Any<AssemblyDefinition>());
             });
         }
-        
+
         [Fact]
         public void Write_AssemblySection_then_ModuleSection()
         {
             var disassembler = new ConsoleOutputDisassembler(_assemblyProcessorMock, _assemblyDefinitionResolver);
-            
+
             disassembler.Execute(new CommandArgument(), new ItemFilter(string.Empty));
 
             Received.InOrder(() =>
@@ -75,12 +75,12 @@ namespace DotNet.Ildasm.Tests
                 _assemblyProcessorMock.WriteModuleSection(Arg.Any<ModuleDefinition>());
             });
         }
-        
+
         [Fact]
         public void Write_ModuleSection_then_ModuleTypes()
         {
             var disassembler = new ConsoleOutputDisassembler(_assemblyProcessorMock, _assemblyDefinitionResolver);
-            
+
             disassembler.Execute(new CommandArgument(), new ItemFilter(string.Empty));
 
             Received.InOrder(() =>
@@ -94,7 +94,7 @@ namespace DotNet.Ildasm.Tests
         public void Write_Nothing_But_ModuleTypes_When_Filter_Is_Set()
         {
             var disassembler = new ConsoleOutputDisassembler(_assemblyProcessorMock, _assemblyDefinitionResolver);
-            
+
             disassembler.Execute(new CommandArgument(), new ItemFilter("PublicClass::PublicVoidMethod"));
 
             _assemblyProcessorMock.Received(0).WriteAssemblyExternalReferences(Arg.Any<AssemblyDefinition>());

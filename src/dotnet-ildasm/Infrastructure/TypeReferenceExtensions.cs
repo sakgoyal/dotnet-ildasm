@@ -7,8 +7,8 @@ namespace DotNet.Ildasm.Infrastructure
     {
         private static string ToPrefixedTypeName(TypeReference typeReference)
         {
-            if (!typeReference.IsGenericInstance && string.Compare(typeReference.Scope.Name, typeReference.Module.Name,
-                    StringComparison.CurrentCultureIgnoreCase) == 0)
+            if (!typeReference.IsGenericInstance && string.Equals(typeReference.Scope.Name, typeReference.Module.Name,
+                    StringComparison.OrdinalIgnoreCase))
                 return $"{typeReference.FullName}";
 
 
